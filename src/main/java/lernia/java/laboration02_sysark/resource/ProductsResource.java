@@ -35,19 +35,15 @@ public class ProductsResource {
     }
 
     @GET
-    public Response getAllProducts() {
-        return Response.ok(warehouseService.getAllProducts()).build();
+    public Response getAllProducts(@Valid @QueryParam("category") Category category) {
+        if (category == null)
+            return Response.ok(warehouseService.getAllProducts()).build();
+        return Response.ok(warehouseService.getProductsInCategory(category)).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getProductByID(@Valid @PathParam("id") int id) {
         return Response.ok(warehouseService.getProductOnID(id)).build();
-    }
-
-    @GET
-    @Path("/categories/{category}")
-    public Response getProductsByCategory(@Valid @PathParam("category") Category category) {
-        return Response.ok(warehouseService.getProductsInCategory(category)).build();
     }
 }
